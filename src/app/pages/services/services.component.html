@@ -1,0 +1,37 @@
+<app-admin-nav></app-admin-nav>
+
+<div class="new-container">
+    <button mat-stroked-button color="primary" class="add-btn" (click)="goAddService()">
+        <mat-icon>add</mat-icon>&nbsp;Services
+    </button>
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <div class="mt-3">
+        <ng-container *ngFor="let service of services">
+            <mat-card class="newsfeed-card">
+                <mat-card-header>
+                    <mat-card-title>{{(service.title.length>22)?
+                        (service.title | slice:0:22)+'...':
+                        (service.title)}}</mat-card-title>
+                </mat-card-header>
+                <img mat-card-image class="card-img"
+                    src="https://api.iroamnet.com/iroamnetapi/images/{{service.image}}">
+                <mat-card-content>
+                    <p class="description">
+                        {{ (service.description.length>100)?
+                        (service.description | slice:0:100)+'...':
+                        (service.description) }}
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-mini-fab color="warn" class="btn-actions" (click)="openDeleteDialog(service)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="primary" class="btn-actions" (click)="goUpdateService(service)">
+                        <mat-icon>create</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<nav>
+    <img class="logo" src="assets/logo.jpg">
+    <ul>
+        <li><a class="btn-nav" routerLink="/home">Home</a></li>
+        <li><a class="btn-nav tn" [routerLink]="['']" fragment="about">About </a></li>
+        <li><a class="btn-nav tn" [routerLink]="['']" fragment="contact">Contact</a></li>
+        <li><a class="btn-nav tn" [routerLink]="['']" fragment="services">Services</a></li>
+        <li><a class="btn-nav tn" routerLink="/sales">Sales</a></li>
+        <li><a class="btn-nav tn" routerLink="/newsfeed">News Feed</a></li>
+    </ul>
+    <button mat-icon-button color="primary" [disableRipple]="true" class="menu-btn tnm" id="toggle-nav">
+        <mat-icon class="icon-size">menu</mat-icon>
+    </button>
+</nav>

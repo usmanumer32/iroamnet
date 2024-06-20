@@ -1,0 +1,17 @@
+<div class="container-new">
+    <h1 class="txt">Login</h1>
+    <form [formGroup]="form">
+        <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+        <div class="row">
+            <label for="email" class="txt">Email</label>
+            <input type="email" name="email" autocomplete="off" formControlName="email" placeholder="email@example.com"
+                required>
+        </div>
+        <div class="row">
+            <label for="password" class="txt">Password</label>
+            <input type="password" name="password" formControlName="password" required>
+        </div>
+        <button (click)="login()" class="txt">Login</button>
+    </form>
+
+</div>

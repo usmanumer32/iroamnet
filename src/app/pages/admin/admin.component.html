@@ -1,0 +1,47 @@
+<app-admin-nav></app-admin-nav>
+
+
+<div class="new-container">
+    <button mat-stroked-button color="primary" class="add-btn" (click)="goAddNewsFeed()">
+        <mat-icon>add</mat-icon>&nbsp;News Feed
+    </button>
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <mat-tab-group *ngIf="postsPiped" animationDuration="2000ms">
+
+        <ng-container *ngFor="let category of categories;let i = index">
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">emoji_objects</mat-icon>
+                    {{category.name}}
+                </ng-template>
+                <div class="mt-3">
+                    <ng-container *ngFor="let post of posts">
+                        <mat-card class="newsfeed-card" *ngIf="post.category === category.name">
+                            <img mat-card-image class="card-img"
+                                src="https://api.iroamnet.com/iroamnetapi/images/{{post.image}}">
+                            <mat-card-content>
+                                <p class="description">
+                                    {{ (post.description.length>100)?
+                                    (post.description | slice:0:130)+'...':
+                                    (post.description) }}
+                                </p>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <button mat-mini-fab color="warn" class="btn-actions" (click)="openDeleteDialog(post)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                                <button mat-mini-fab color="primary" class="btn-actions" (click)="goUpdatePost(post)">
+                                    <mat-icon>create</mat-icon>
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </ng-container>
+                </div>
+            </mat-tab>
+
+        </ng-container>
+
+    </mat-tab-group>
+</div>

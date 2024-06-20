@@ -1,0 +1,58 @@
+.newsfeed-card {
+    width: 400px;
+    // height: 480px;
+    height: 350px;
+    float: left;
+    margin-left: 50px;
+    margin-top: 50px;
+    z-index: -1;
+}
+.card-div {
+    margin-left: 7%;
+}
+
+.card-img {
+    // width: 400px;
+    height: 80%;
+    max-height: 80%;
+}
+
+.description {
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #686868;
+    font-weight: 400;
+}
+
+.new-container {
+    min-height: 100vh;
+    border: 1px solid white;
+    z-index: -1;
+}
+
+.example-tab-icon {
+    margin-right: 8px;
+    font-size: 25px;
+}
+
+mat-tab-group {
+    margin-top: 100px;
+}
+
+::ng-deep.mat-tab-label,
+::ng-deep.mat-tab-label-active {
+    min-width: 550px !important;
+}
+
+@media (max-width: 909px) {
+    .newsfeed-card {
+        margin-left: 0;
+        width: 350px;
+        height: 330px;
+    }
+
+    ::ng-deep.mat-tab-label,
+    ::ng-deep.mat-tab-label-active {
+        min-width: 200px !important;
+    }
+}

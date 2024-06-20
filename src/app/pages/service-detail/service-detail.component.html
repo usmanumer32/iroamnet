@@ -1,0 +1,24 @@
+<app-navbar></app-navbar>
+
+<div class="new-container">
+    <div style="position: relative; margin-top: 130px;margin-left: 20px; margin-right: 20px;display: inline-block">
+        <div class="blog-card">
+            <div class="meta">
+                <div class="photo" style="background-image: url(assets/images/flag.PNG)"></div>
+                <ul class="details">
+                    <li class="author">info@iroamnet.com</li>
+                    <li class="date">+251920609060</li>
+                </ul>
+            </div>
+            <div class="description">
+                <h1>{{serviceDetail.title}}</h1>
+                <!-- <h2>{{serviceDetail.subtitle}}</h2> -->
+                <p class="description">{{serviceDetail.description}}</p>
+                <p class="read-more">
+                    <a *ngIf="serviceDetail.id === '47'" routerLink="/sales">Sales</a>
+                    <a *ngIf="serviceDetail.id !== '47'" routerLink="/home">Home</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

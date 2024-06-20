@@ -1,0 +1,38 @@
+<app-admin-nav></app-admin-nav>
+
+<div class="new-container">
+    <button mat-stroked-button color="primary" class="add-btn" (click)="goAddProduct()">
+        <mat-icon>add</mat-icon>&nbsp;Product
+    </button>
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <div class="mt-3">
+        <ng-container *ngFor="let product of products">
+            <mat-card class="newsfeed-card">
+                <mat-card-header>
+                    <mat-card-title>{{(product.title.length>22)?
+                        (product.title | slice:0:22)+'...':
+                        (product.title)}}</mat-card-title>
+                </mat-card-header>
+                <img mat-card-image class="card-img"
+                    src="https://api.iroamnet.com/iroamnetapi/images/{{product.image}}">
+                <mat-card-content>
+                    <h3 class="price">{{product.currency}} {{product.price}}</h3>
+                    <p class="description">
+                        {{ (product.description.length>100)?
+                        (product.description | slice:0:100)+'...':
+                        (product.description) }}
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-mini-fab color="warn" class="btn-actions" (click)="openDeleteDialog(product)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="primary" class="btn-actions" (click)="goUpdateProduct(product)">
+                        <mat-icon>create</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </ng-container>
+    </div>
+</div>

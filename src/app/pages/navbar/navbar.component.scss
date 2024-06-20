@@ -1,0 +1,114 @@
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+}
+
+.logo {
+    padding: 10px;
+    width: 20%;
+}
+
+.btn-nav {
+    cursor: pointer;
+}
+
+nav {
+    height: 100px;
+    width: 100%;
+    background: white;
+    position: fixed;
+    z-index: 2;
+}
+
+nav ul {
+    float: right;
+    margin-right: 40px;
+}
+
+nav li {
+    display: inline-block;
+    margin: 0 8px;
+    line-height: 80px;
+}
+
+nav a {
+    color: #1e4883;
+    font-size: 18px;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    padding: 7px 10px;
+    border-radius: 3px;
+}
+
+.icon-size {
+    font-size: 40px;
+}
+
+.menu-btn {
+    float: right;
+    margin-right: 40px;
+    line-height: 80px;
+    display: none;
+}
+
+@media (max-width: 1048px) {
+    .logo {
+        padding: 15px;
+        width: 15%;
+    }
+
+    nav ul {
+        margin-right: 20px;
+    }
+
+    nav a {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 909px) {
+    .menu-btn {
+        display: block;
+    }
+
+    nav ul {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        background: #2f3640;
+        top: 80px;
+        left: -100%;
+        text-align: center;
+        z-index: 1;
+        transition: all 0.5s;
+    }
+
+    nav li {
+        display: block;
+        margin: 50px 0;
+        line-height: 30px;
+    }
+
+    nav a {
+        font-size: 20px;
+        color: white;
+    }
+
+    nav ul.show {
+        left: 0;
+    }
+
+    .logo {
+        padding: 20px;
+        width: 20%;
+    }
+}
+
+@media (max-width: 460px) {
+    .logo {
+        padding: 20px;
+        width: 25%;
+    }
+}

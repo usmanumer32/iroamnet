@@ -1,0 +1,14 @@
+<nav>
+    <img class="logo" src="assets/logo.jpg">
+    <ul>
+        <li><a class="btn-nav" (click)="gotoAdmin()">News Feed</a></li>
+        <li><a class="btn-nav" (click)="gotoCategories()">Category</a></li>
+        <li><a class="btn-nav" (click)="gotoServices()">Service</a></li>
+        <li><a class="btn-nav" (click)="gotoProducts()">Products</a></li>
+        <li><a class="btn-nav" (click)="gotoUsers()">User</a></li>
+        <li><a class="btn-nav" (click)="signout()">sign-out</a></li>
+    </ul>
+    <button mat-icon-button color="primary" [disableRipple]="true" class="menu-btn" id="toggle-nav">
+        <mat-icon class="icon-size">menu</mat-icon>
+    </button>
+</nav>

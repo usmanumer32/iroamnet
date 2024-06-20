@@ -1,0 +1,32 @@
+<app-admin-nav></app-admin-nav>
+
+<div class="new-container">
+
+    <div class="div-form">
+        <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+        <form id="f" class="mt-4" [formGroup]="form">
+
+            <mat-form-field appearance="outline" class="col-sm-12">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" placeholder="category name" formControlName="name">
+                <button mat-button matSuffix mat-icon-button (click)="save()">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </mat-form-field>
+
+        </form>
+        <h5 class="ml-3">Categories</h5>
+        <p class="ml-3">
+            <small class="text-muted">List of <b>Categories</b> already created.</small>
+        </p>
+
+        <div class="w-100 mt-4 ml-3">
+            <mat-chip-list #chipList>
+                <mat-chip *ngFor="let c of categories" [removable]="true" (removed)="openDeleteDialog(c)">
+                    {{c.name}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+.new-container {
+    min-height: 100vh;
+    border: 1px solid white;
+    z-index: -1;
+    overflow-y: hidden;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.newsfeed-card {
+    width: 310px;
+    // height: 430px;
+    height: 360px;
+    float: left;
+    margin-left: 4vw;
+    margin-top: 120px;
+}
+
+.card-img {
+    // width: 250px;
+    // height: 55%;
+    // margin-left: 5px;
+    max-height: 55%;
+}
+
+.description {
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #686868;
+    font-weight: 400;
+}
+
+.btn-actions {
+    float: right;
+    margin-right: 7px;
+}
+
+// @media (max-width: 909px) {
+//     .newsfeed-card {
+//         width: 310px;
+//         height: 430px;
+//         float: left;
+//         margin-left: 4vw;
+//         margin-top: 100px;
+//     }
+// }

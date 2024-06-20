@@ -1,0 +1,33 @@
+<app-navbar></app-navbar>
+
+<div class="new-container">
+    <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+
+    <mat-tab-group *ngIf="postsPiped" animationDuration="2000ms">
+
+        <ng-container *ngFor="let category of categories;let i = index">
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">emoji_objects</mat-icon>
+                    {{category.name}}
+                </ng-template>
+                <div class="mt-3 card-div">
+                    <ng-container *ngFor="let post of posts">
+                        <mat-card class="newsfeed-card" *ngIf="post.category === category.name">
+                            <img mat-card-image class="card-img"
+                                src="https://api.iroamnet.com/iroamnetapi/images/{{post.image}}">
+                            <mat-card-content>
+                                <p class="description">
+                                    {{post.description}}
+                                </p>
+                            </mat-card-content>
+                        </mat-card>
+                    </ng-container>
+                </div>
+            </mat-tab>
+
+        </ng-container>
+
+    </mat-tab-group>
+</div>

@@ -1,0 +1,37 @@
+<app-admin-nav></app-admin-nav>
+
+<div class="new-container">
+    <div class="div-form">
+
+        <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+        <form id="f" class="mt-4" [formGroup]="form">
+
+            <mat-form-field appearance="outline" class="col-sm-12">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="category">
+                    <ng-container *ngFor="let c of categories">
+                        <mat-option [value]="c.name">
+                            {{c.name}}
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <div class="col-sm-6"></div>
+
+            <mat-form-field appearance="outline" class="col-sm-12">
+                <mat-label>Description</mat-label>
+                <textarea matInput rows="5" placeholder="A brief description of the post."
+                    formControlName="description"></textarea>
+            </mat-form-field>
+            <div class="col-sm-6"></div>
+
+            <mat-form-field appearance="outline" class="col-sm-12">
+                <ngx-mat-file-input formControlName="image" [accept]="accept">
+                </ngx-mat-file-input>
+            </mat-form-field>
+            <div class="col-sm-6"></div>
+
+            <button type="button" (click)="save()" class="btn btn-outline-primary">Save</button>
+        </form>
+    </div>
+</div>

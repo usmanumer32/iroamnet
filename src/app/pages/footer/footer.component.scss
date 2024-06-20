@@ -1,0 +1,28 @@
+@import "../../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+#footer {
+    color: #414c64;
+    font-size: 14px;
+    background: #f4f5f8;
+    margin-top: 50px;
+}
+
+#footer .social-links a {
+    font-size: 18px;
+    display: inline-block;
+    background: #e1e4ec;
+    color: #5f6f92;
+    line-height: 1;
+    padding: 8px 0;
+    margin-right: 4px;
+    border-radius: 50%;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+    transition: 0.3s;
+}
+
+#footer .social-links a:hover {
+    background: #ffce3a;
+    text-decoration: none;
+}

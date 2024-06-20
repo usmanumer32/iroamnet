@@ -1,0 +1,241 @@
+<app-navbar></app-navbar>
+
+<div class="new-container">
+
+    <div class="container-slideshow">
+
+        <div data-am-fadeshow="next-prev-navigation autoplay">
+
+            <!-- Radio -->
+            <input type="radio" name="css-fadeshow" id="slide-1" />
+            <input type="radio" name="css-fadeshow" id="slide-2" />
+            <input type="radio" name="css-fadeshow" id="slide-3" />
+            <input type="radio" name="css-fadeshow" id="slide-4" />
+
+            <!-- Slides -->
+            <div class="fs-slides">
+                <div class="fs-slide" style="background-image: url('assets/images/30.PNG');">
+                    <!-- Add content to images (sample) -->
+                    <!-- <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: sans-serif; text-align: center; text-shadow: 0 0 20px rgba(0,0,0,0.5);">
+                        <h1 style="margin-top: 0; margin-bottom: 0.8vw; font-size: 5vw; font-weight: bold;">Pure CSS Fadeshow</h1>
+                        <p style="font-size: 2vw; font-weight: 100; margin-top: 0;">Easy to implement and use on <strong>your</strong> site!</p>
+                    </div> -->
+                </div>
+                <div class="fs-slide" style="background-image: url('assets/images/26.PNG');"></div>
+                <div class="fs-slide" style="background-image: url('assets/images/27.PNG');"></div>
+                <div class="fs-slide" style="background-image: url('assets/images/28.PNG');"></div>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="fs-quick-nav">
+                <label class="fs-quick-btn" for="slide-1"></label>
+                <label class="fs-quick-btn" for="slide-2"></label>
+                <label class="fs-quick-btn" for="slide-3"></label>
+                <label class="fs-quick-btn" for="slide-4"></label>
+            </div>
+
+            <!-- Prev Navigation -->
+            <div class="fs-prev-nav">
+                <label class="fs-prev-btn" for="slide-1"></label>
+                <label class="fs-prev-btn" for="slide-2"></label>
+                <label class="fs-prev-btn" for="slide-3"></label>
+                <label class="fs-prev-btn" for="slide-4"></label>
+            </div>
+
+            <!-- Next Navigation -->
+            <div class="fs-next-nav">
+                <label class="fs-next-btn" for="slide-1"></label>
+                <label class="fs-next-btn" for="slide-2"></label>
+                <label class="fs-next-btn" for="slide-3"></label>
+                <label class="fs-next-btn" for="slide-4"></label>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- <div class="carousel">
+        <div class="carousel-inner">
+            <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden=""
+                checked="checked">
+            <div class="carousel-item fade">
+                <img src="assets/images/26.PNG">
+            </div>
+            <input class="carousel-open fade" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
+            <div class="carousel-item">
+                <img src="assets/images/27.PNG">
+            </div>
+            <input class="carousel-open fade" type="radio" id="carousel-3" name="carousel" aria-hidden="true" hidden="">
+            <div class="carousel-item">
+                <img src="assets/images/28.PNG">
+            </div>
+            <input class="carousel-open" type="radio" id="carousel-4" name="carousel" aria-hidden="true" hidden="">
+            <div class="carousel-item">
+                <img src="assets/images/29.PNG">
+            </div>
+            <label for="carousel-4" class="carousel-control next control-1">›</label>
+            <label for="carousel-3" class="carousel-control prev control-1">‹</label>
+            <label for="carousel-2" class="carousel-control next control-1">›</label>
+            <label for="carousel-1" class="carousel-control prev control-2">‹</label>
+            <label for="carousel-4" class="carousel-control prev control-3">‹</label>
+            <label for="carousel-3" class="carousel-control next control-2">›</label>
+            <label for="carousel-2" class="carousel-control prev control-3">‹</label>
+            <label for="carousel-1" class="carousel-control next control-3">›</label>
+            <ol class="carousel-indicators">
+                <li>
+                    <label for="carousel-1" class="carousel-bullet">•</label>
+                </li>
+                <li>
+                    <label for="carousel-2" class="carousel-bullet">•</label>
+                </li>
+                <li>
+                    <label for="carousel-3" class="carousel-bullet">•</label>
+                </li>
+                <li>
+                    <label for="carousel-4" class="carousel-bullet">•</label>
+                </li>
+            </ol>
+        </div>
+    </div> -->
+
+
+    <main class="l-main">
+        <!--========== HOME ==========-->
+        <section class="home" id="home">
+            <div class="home__container bd-container bd-grid">
+                <div class="home__img">
+                    <img src="assets/images/0.png" alt="">
+                </div>
+
+                <div class="home__data">
+                    <h1 class="home__title">iRoamNET System Solutions</h1>
+                    <p class="home__description">Reliable technology partner to provide high quality , affordable and
+                        sensible Tailored technology solutions to achieve excellence in business operation</p>
+                    <a [routerLink]="['']" fragment="services" class="button">Get Started</a>
+                </div>
+            </div>
+        </section>
+
+
+        <!--========== About ==========-->
+        <section class="decoration section bd-container" id="about">
+            <h2 class="section-title">iRoamNET System Solutions <br> ICT Solution Provider </h2>
+            <div class="decoration__container bd-grid">
+                <div class="decoration__data">
+                    <img src="assets/images/1.png" alt="" class="decoration__img">
+                    <h3 class="decoration__title">Customer Service</h3>
+                    <a class="button button-link">Hight Quality Business Operation.</a>
+                </div>
+
+                <div class="decoration__data">
+                    <img src="assets/images/2.png" alt="" class="decoration__img">
+                    <h3 class="decoration__title">Clear and Inspiring</h3>
+                    <a class="button button-link">Reliable Technology Partner</a>
+                </div>
+
+                <div class="decoration__data">
+                    <img src="assets/images/3.png" alt="" class="decoration__img">
+                    <h3 class="decoration__title">Responsiblity | Transparency</h3>
+                    <a class="button button-link">Integrity, Honesty, Simplicity</a>
+                </div>
+            </div>
+        </section>
+
+        <!--========== SHARE ==========-->
+        <section class="share section bd-container" id="share">
+            <div class="share__container bd-grid">
+                <div class="share__data">
+                    <h2 class="section-title-center">Why Chose Us <br> Experience | Skill Domain experts | Low Cost
+                    </h2>
+                    <p class="share__description">iRoamNET System Solutions plc is an ICT solution provider who
+                        specializes
+                        in telecom services/ Networking/ IT support / technology solutions and Consultancy services.
+                        Designing, implementation, configuration, testing and commissioning tasks
+                        are carried by young and talented professionals with a strong experience in various industry
+                        sectors.
+                    </p>
+                </div>
+
+                <div class="share__img">
+                    <img src="assets/images/ppt.jpg" alt="">
+                </div>
+            </div>
+        </section>
+
+        <!--========== Services ==========-->
+        <section class="accessory section bd-container" id="services">
+            <h2 class="section-title">Our Company <br> Services</h2>
+
+            <div class="accessory__container bd-grid">
+
+                <ng-container *ngFor="let service of servicesList">
+                    <div class="accessory__content" (click)="goServiceDetail(service)">
+                        <img src="https://api.iroamnet.com/iroamnetapi/images/{{service.image}}" alt=""
+                            class="accessory__img">
+                        <h3 class="accessory__title">{{service.title}}</h3>
+                        <span class="accessory__category"></span>
+                        <a class="accessory__preci" (click)="goServiceDetail(service)">More</a>
+
+                    </div>
+                </ng-container>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="contact-container">
+
+        <!--contact-form-container------------------->
+        <section id="contact">
+            <!--socail----------->
+            <div class="social">
+                <a href="https://www.facebook.com/IRoamnet-System-Solutions-Plc-290059688159923" target="_blank">
+                    <i class="fa fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com/iroamnet" target="_blank">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="https://www.instagram.com/iroamnet/" target="_blank">
+                    <i class="fa fa-instagram"></i>
+                </a>
+                <a href="https://t.me/iroamnet" target="_blank">
+                    <i class="fa fa-telegram"></i>
+                </a>
+                <a href="https://www.linkedin.com/company/iroamnet-system-solutions" target="_blank">
+                    <i class="fa fa-linkedin"></i>
+                </a>
+
+            </div>
+            <!--contact-box------------->
+            <div class="contact-box">
+                <!--heading---------->
+                <div class="c-heading">
+                    <h1>Get In Touch</h1>
+                    <p>Call Or Email Us Regarding Question Or Issues</p>
+                </div>
+                <!--inputs------------------>
+                <div class="c-inputs">
+                    <form id="f" [formGroup]="form">
+                        <mat-progress-bar mode="indeterminate" *ngIf="busy"></mat-progress-bar>
+                        <input type="text" placeholder="Full Name" formControlName="name" required />
+                        <input type="email" placeholder="Example@gmail.com" formControlName="email" required />
+                        <textarea name="message" placeholder="Write Message" formControlName="message"
+                            required></textarea>
+                        <!--sumbit-btn----------->
+                        <button (click)="send()">SEND</button>
+                    </form>
+                </div>
+
+            </div>
+            <!--map------------------->
+            <div class="map">
+                <iframe width="600" height="450" id="gmap_canvas"
+                    src="https://maps.google.com/maps?q=kirkos%20shopping%20center&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="border:0;"></iframe>
+
+            </div>
+        </section>
+
+    </div>
+
+</div>

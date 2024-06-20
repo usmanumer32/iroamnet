@@ -1,0 +1,1242 @@
+.new-container {
+    min-height: 100vh;
+    border: 1px solid white;
+    z-index: -1;
+}
+
+@media screen and (min-width: 968px) {
+    :root {
+        --biggest-font-size: 3rem;
+        --h2-font-size: 1.75rem;
+        --h3-font-size: 1.25rem;
+        --normal-font-size: 1rem;
+        --small-font-size: 0.875rem;
+    }
+}
+
+/*========== BASE ==========*/
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: var(--header-height) 0 0 0;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    background-color: var(--body-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+ul,
+p {
+    margin: 0;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: var(--font-semi-bold);
+    color: var(--title-color);
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/*========== Slideshow CSS ==========*/
+
+$max-slides: 5;
+$prefix: true;
+$responsive: true;
+$breakpoint-small: 500px;
+$fade-time: 1;
+$prev-next-fontfamily: sans-serif;
+$prev-next-icon-size: 3vw;
+$prev-next-icon-color: #0d4da2;
+$prev-next-bg: rgba(255, 255, 255, 0);
+$prev-next-bg-hover: rgba(255, 255, 255, 0.1);
+$prev-icon: "❮";
+$next-icon: "❯";
+$autohide-next-prev: true;
+$quick-nav-color: rgba(255, 255, 255, 0.8);
+$quick-nav-active-color: coral;
+$fade-color: #fff;
+$autoplay: true;
+$autoplay-duration: 5;
+
+/*
+  * ===== MIXINS =====
+  *
+  * This section contains mixin used
+  * Do not change anything here unless you know what you are doing.
+  */
+
+/* Mixins to handle prefixes */
+
+@mixin fadeshow-transition($value...) {
+    @if length($value) < 1 {
+        $value: all 150ms linear;
+    }
+    @if $prefix==true {
+        -webkit-transition: $value;
+    }
+    transition: $value;
+}
+
+@mixin fadeshow-transform($value...) {
+    @if length($value) < 1 {
+        $value: all 150ms linear;
+    }
+    @if $prefix==true {
+        -webkit-transform: $value;
+        -ms-transform: $value;
+    }
+    transform: $value;
+}
+
+@mixin fadeshow-animation($value...) {
+    @if $prefix==true {
+        -webkit-animation: $value;
+    }
+    animation: $value;
+}
+
+@mixin fadeshow-animation-delay($value) {
+    @if $prefix==true {
+        -webkit-animation-delay: $value;
+    }
+    animation-delay: $value;
+}
+
+@mixin fadeshow-unselectable() {
+    @if $prefix==true {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+    user-select: none;
+}
+
+/* Mixins to handle Quick Navigation Button states */
+
+@mixin quickNavBtnActive() {
+    background-color: $quick-nav-active-color;
+}
+
+@mixin quickNavBtnInactive() {
+    background-color: $quick-nav-color;
+}
+
+/*
+  * ===== FADESHOW =====
+  *
+  * Base functionality for the fadeshow.
+  * Do not change anything here unless you know what you are doing.
+  */
+
+[data-am-fadeshow] {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: $fade-color;
+    /* Slides */
+    .fs-slide {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        @include fadeshow-transition(opacity #{$fade-time}s ease);
+        /* Display first child on load */
+        &:first-child {
+            opacity: 1;
+        }
+    }
+    /* Quick Navigation */
+    .fs-quick-nav {
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        z-index: 1;
+        @include fadeshow-unselectable();
+        @include fadeshow-transform(translateX(-50%));
+    }
+    .fs-quick-btn {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        cursor: pointer;
+        @include fadeshow-transition(opacity 200ms ease);
+        @include quickNavBtnInactive();
+        &:hover {
+            opacity: 0.8;
+        }
+        /* Set active state to first button on load */
+        &:first-child {
+            @include quickNavBtnActive();
+        }
+    }
+    /* Prev/Next Navigation */
+    %prev-next {
+        position: absolute;
+        display: none;
+        top: 0;
+        bottom: 0;
+        width: 100px;
+        cursor: pointer;
+        font-family: $prev-next-fontfamily;
+        background-color: $prev-next-bg;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        @include fadeshow-transition(all 200ms ease);
+        @if $responsive==true {
+            @media (max-width: $breakpoint-small) {
+                width: 50%;
+            }
+        }
+        &:before {
+            position: absolute;
+            top: 50%;
+            font-size: $prev-next-icon-size;
+            color: $prev-next-icon-color;
+        }
+        &:hover {
+            background-color: $prev-next-bg-hover;
+            @if $responsive==true {
+                @media (max-width: $breakpoint-small) {
+                    background-color: rgba(255, 255, 255, 0);
+                }
+            }
+        }
+    }
+    .fs-prev-btn {
+        @extend %prev-next;
+        left: 0;
+        &:before {
+            content: "#{$prev-icon}";
+            left: 50%;
+            @include fadeshow-transform(translate(-50%, -50%));
+            @if $responsive==true {
+                @media (max-width: $breakpoint-small) {
+                    left: 30px;
+                }
+            }
+        }
+        @if $autohide-next-prev==true {
+            @include fadeshow-transform(translateX(-100%));
+            @if $responsive==true {
+                @media (max-width: $breakpoint-small) {
+                    @include fadeshow-transform(translate(0));
+                }
+            }
+        }
+    }
+    .fs-next-btn {
+        @extend %prev-next;
+        right: 0;
+        &:before {
+            content: "#{$next-icon}";
+            right: 50%;
+            @include fadeshow-transform(translate(50%, -50%));
+            @if $responsive==true {
+                @media (max-width: $breakpoint-small) {
+                    right: 30px;
+                }
+            }
+        }
+        @if $autohide-next-prev==true {
+            @include fadeshow-transform(translateX(100%));
+            @if $responsive==true {
+                @media (max-width: $breakpoint-small) {
+                    @include fadeshow-transform(translate(0));
+                }
+            }
+        }
+    }
+    /* Base functionality */
+    input[type="radio"] {
+        position: fixed;
+        top: -9999px;
+        &:checked {
+            /* This loop handles the slide switching and quick navigation active state */
+            $i: $max-slides;
+            @while $i>0 {
+                &:nth-of-type(#{$i}) {
+                    /* Show slide */
+                    ~ .fs-slides {
+                        .fs-slide {
+                            //Cancel autoplay
+                            opacity: 0;
+                            @include fadeshow-animation(none !important);
+                        }
+                        .fs-slide:nth-child(#{$i}) {
+                            opacity: 1;
+                        }
+                    }
+                    /* Add active state to dot */
+                    ~ .fs-quick-nav {
+                        .fs-quick-btn {
+                            @include quickNavBtnInactive();
+                            /* Cancel autoplay */
+                            @include fadeshow-animation(none !important);
+                        }
+                        .fs-quick-btn:nth-child(#{$i}) {
+                            background-color: $quick-nav-active-color;
+                            &:hover {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+                $i: $i - 1;
+            }
+            /* Hide navigation if only one slide */
+            &:first-of-type:last-of-type {
+                ~ .fs-quick-nav,
+                ~ .fs-prev-nav,
+                ~ .fs-next-nav {
+                    display: none !important;
+                }
+            }
+        }
+    }
+    /* Autohide Prev/Next Navigation */
+    @if $autohide-next-prev==true {
+        &:hover {
+            .fs-prev-btn,
+            .fs-next-btn {
+                @include fadeshow-transform(translateX(0));
+            }
+        }
+    }
+}
+
+/*
+  * ===== PREV/NEXT NAVIGATION =====
+  *
+  * This section handles the prev/next navigation.
+  */
+
+/* Handle Prev/Next buttons */
+
+[data-am-fadeshow~="next-prev-navigation"] {
+    input[type="radio"] {
+        &:checked {
+            $i: $max-slides;
+            @while $i>0 {
+                &:nth-of-type(#{$i}) {
+                    $prev: ($i - 1);
+                    $next: ($i + 1);
+                    /* Show previous button */
+                    @if $prev>0 {
+                        ~ .fs-prev-nav {
+                            .fs-prev-btn {
+                                display: none;
+                            }
+                            .fs-prev-btn:nth-child(#{$prev}) {
+                                display: block;
+                            }
+                        }
+                    }
+                    /* Show next button */
+                    @if $next < ($max-slides + 1) {
+                        ~ .fs-next-nav {
+                            .fs-next-btn {
+                                display: none;
+                            }
+                            .fs-next-btn:nth-child(#{$next}) {
+                                display: block;
+                            }
+                        }
+                    }
+                    /* Show last prev button if first slide */
+                    &:first-of-type {
+                        ~ .fs-prev-nav {
+                            .fs-prev-btn:last-child {
+                                display: block;
+                            }
+                        }
+                    }
+                    /* Show first next button if last slide */
+                    &:last-of-type {
+                        ~ .fs-next-nav {
+                            .fs-next-btn:first-child {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+                $i: $i - 1;
+            }
+        }
+    }
+    /* Display first pair of Prev/Next Buttons on load */
+    .fs-prev-btn:last-child {
+        display: block;
+    }
+    .fs-next-btn:nth-child(2) {
+        display: block;
+    }
+}
+
+/*
+  * ===== AUTOPLAY =====
+  *
+  * Functions to handle autoplay.
+  * If you're not going to use autoplay, set $autoplay to false.
+  * This part tends to compile into a lot of uneccesary CSS otherwise.
+  */
+
+@if $autoplay==true {
+    $i: $max-slides;
+    @while $i>1 {
+        $total-duration: $autoplay-duration * $i;
+        @keyframes quickNavAnimation-#{$i} {
+            0% {
+                @include quickNavBtnInactive();
+            }
+            #{100% * $fade-time / $total-duration},
+            #{100% * $autoplay-duration / $total-duration} {
+                @include quickNavBtnActive();
+            }
+            #{100% * ($autoplay-duration + $fade-time) / $total-duration},
+            100% {
+                @include quickNavBtnInactive();
+            }
+        }
+        @if $prefix==true {
+            @-webkit-keyframes quickNavAnimation-#{$i} {
+                0% {
+                    @include quickNavBtnInactive();
+                }
+                #{100% * $fade-time / $total-duration},
+                #{100% * $autoplay-duration / $total-duration} {
+                    @include quickNavBtnActive();
+                }
+                #{100% * ($autoplay-duration + $fade-time) / $total-duration},
+                100% {
+                    @include quickNavBtnInactive();
+                }
+            }
+        }
+        @keyframes slidesAnimation-#{$i} {
+            0% {
+                opacity: 0;
+            }
+            #{100% * $fade-time / $total-duration},
+            #{100% * $autoplay-duration / $total-duration} {
+                opacity: 1;
+            }
+            #{100% * ($autoplay-duration + $fade-time) / $total-duration},
+            100% {
+                opacity: 0;
+            }
+        }
+        @if $prefix==true {
+            @-webkit-keyframes slidesAnimation-#{$i} {
+                0% {
+                    opacity: 0;
+                }
+                #{100% * $fade-time / $total-duration},
+                #{100% * $autoplay-duration / $total-duration} {
+                    opacity: 1;
+                }
+                #{100% * ($autoplay-duration + $fade-time) / $total-duration},
+                100% {
+                    opacity: 0;
+                }
+            }
+        }
+        [data-am-fadeshow~="autoplay"] {
+            input[type="radio"]:nth-of-type(#{$i}):last-of-type {
+                /* Slide animation */
+                ~ .fs-slides {
+                    .fs-slide {
+                        @include fadeshow-animation(slidesAnimation-#{$i} #{$total-duration}s infinite);
+                    }
+                }
+                /* Quick navigation animation */
+                ~ .fs-quick-nav {
+                    .fs-quick-btn {
+                        @include fadeshow-animation(quickNavAnimation-#{$i} #{$total-duration}s infinite);
+                    }
+                }
+                /* Animation Delay */
+                @for $j from 1 through $i {
+                    ~ .fs-slides .fs-slide:nth-child(#{$j}),
+                    ~ .fs-quick-nav .fs-quick-btn:nth-child(#{$j}) {
+                        $animation-delay: #{($j - 1) * ($autoplay-duration) - $fade-time}s;
+                        @include fadeshow-animation-delay(#{$animation-delay});
+                    }
+                }
+            }
+            $i: $i - 1;
+        }
+    }
+}
+
+/* Base Styling */
+
+body {
+    margin: 0;
+}
+
+.container-slideshow {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    height: 100vh;
+    margin-bottom: 25px;
+}
+
+/*========== CLASS CSS ==========*/
+
+.section {
+    padding: 4rem 0 2rem;
+}
+
+.section-title,
+.section-title-center {
+    font-size: var(--h2-font-size);
+    color: var(--title-color);
+    text-align: center;
+    margin-bottom: var(--mb-3);
+}
+
+/*========== LAYOUT ==========*/
+
+.l-main {
+    overflow: hidden;
+}
+
+.bd-container {
+    max-width: 1500px;
+    width: calc(100% - 3rem);
+    margin-left: var(--mb-3);
+    margin-right: var(--mb-3);
+}
+
+.bd-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.l-header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-fixed);
+    background-color: var(--body-color);
+}
+
+/*========== NAV ==========*/
+
+.nav {
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .nav__menu {
+        position: fixed;
+        top: -100%;
+        left: 0;
+        right: 0;
+        width: 90%;
+        margin: 0 auto;
+        padding: 2.5rem 0 0;
+        text-align: center;
+        background-color: var(--body-color);
+        transition: 0.4s;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        border-radius: 2rem;
+        z-index: var(--z-fixed);
+    }
+}
+
+.nav__item {
+    margin-bottom: var(--mb-3);
+}
+
+.nav__link,
+.nav__logo,
+.nav__toggle {
+    color: var(--title-color);
+    font-weight: var(--font-semi-bold);
+}
+
+.nav__logo:hover {
+    color: var(--first-color);
+}
+
+.nav__link {
+    transition: 0.3s;
+}
+
+.nav__link:hover {
+    color: var(--first-color);
+}
+
+.nav__toggle {
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+/* Show menu */
+
+.show-menu {
+    top: calc(var(--header-height) + 1rem);
+}
+
+/* Active menu link */
+
+.active-link {
+    position: relative;
+}
+
+.active-link::before {
+    content: "";
+    position: absolute;
+    bottom: -0.75rem;
+    left: 45%;
+    width: 5px;
+    height: 5px;
+    background-color: var(--title-color);
+    border-radius: 50%;
+}
+
+/* Change background header */
+
+.scroll-header {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Scroll top */
+
+.scrolltop {
+    position: fixed;
+    right: 1rem;
+    bottom: -20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.3rem;
+    background: rgba(218, 37, 53, 0.5);
+    border-radius: 0.4rem;
+    z-index: var(--z-tooltip);
+    transition: 0.4s;
+    visibility: hidden;
+}
+
+.scrolltop:hover {
+    background-color: var(--first-color);
+}
+
+.scrolltop__icon {
+    font-size: 1.5rem;
+    color: var(--body-color);
+}
+
+.show-scroll {
+    visibility: visible;
+    bottom: 1.5rem;
+}
+
+/*========== HOME ==========*/
+
+.home__container {
+    row-gap: 0.5rem;
+}
+
+.home__img {
+    width: 280px;
+    justify-self: center;
+}
+
+.home__title {
+    font-size: var(--biggest-font-size);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--mb-2);
+}
+
+.home__description {
+    margin-bottom: var(--mb-3);
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+/*========== BUTTONS ==========*/
+
+.button {
+    display: inline-block;
+    background-color: var(--first-color);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: var(--font-semi-bold);
+    transition: 0.3s;
+}
+
+.button:hover {
+    background-color: var(--first-color-alt);
+}
+
+.button-link {
+    background: none;
+    padding: 0;
+    color: var(--first-color);
+}
+
+.button-link:hover {
+    background-color: transparent;
+    color: var(--first-color-alt);
+}
+
+/*========== SHARE ==========*/
+
+.share__data {
+    text-align: center;
+}
+
+.share__description {
+    margin-bottom: var(--mb-2);
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.share__img {
+    width: 280px;
+    justify-self: center;
+}
+
+/*========== DECORATION ==========*/
+
+.decoration__container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.decoration__data {
+    text-align: center;
+    padding: 1rem 1rem 2rem;
+    background-color: var(--container-color);
+    box-shadow: 0 2px 6px rgba(65, 11, 16, 0.15);
+    border-radius: 1rem;
+}
+
+.decoration__data:hover {
+    box-shadow: 0 3px 12px rgba(65, 11, 16, 0.15);
+}
+
+.decoration__img {
+    width: 180px;
+}
+
+.decoration__title {
+    font-size: var(--h3-font-size);
+    margin-bottom: var(--mb-1);
+}
+
+/*========== ACCESSORIES ==========*/
+
+.accessory__container {
+    grid-template-columns: repeat(2, 1fr);
+    padding-bottom: 2rem;
+    justify-content: space-evenly;
+}
+
+.accessory__content {
+    position: relative;
+    display: grid;
+    padding: 0.25rem 0.75rem 0.75rem;
+    background-color: var(--container-color);
+    box-shadow: 0 2px 6px rgba(65, 11, 16, 0.15);
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.accessory__content:hover {
+    box-shadow: 0 3px 12px rgba(65, 11, 16, 0.15);
+}
+
+.accessory__img {
+    width: 110px;
+    justify-self: center;
+    margin-bottom: 0.25rem;
+}
+
+.accessory__title,
+.accessory__category {
+    text-align: center;
+}
+
+.accessory__title {
+    font-size: var(--normal-font-size);
+}
+
+.accessory__category {
+    font-size: var(--small-font-size);
+    margin-bottom: var(--mb-1);
+    color: var(--text-color-light);
+}
+
+.accessory__preci {
+    font-weight: var(--font-semi-bold);
+    color: var(--title-color);
+}
+
+.accessory__button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    font-size: 1.25rem;
+    padding: 0.5rem 0.625rem;
+    border-radius: 1rem 0 1rem 0;
+}
+
+/*========== SEND GIFT ==========*/
+
+.send {
+    background-color: var(--first-color-send);
+}
+
+.send__title,
+.send__description {
+    color: #fff;
+}
+
+.send__description {
+    text-align: center;
+    margin-bottom: var(--mb-4);
+}
+
+.send__direction {
+    display: flex;
+    background-color: #fff;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.send__input {
+    width: 90%;
+    outline: none;
+    border: none;
+    font-size: var(--normal-font-size);
+    font-family: var(--body-font);
+}
+
+.send__input::placeholder {
+    font-family: var(--body-font);
+}
+
+.send__img {
+    width: 280px;
+    justify-self: center;
+}
+
+/*========== MEDIA QUERIES ==========*/
+
+/* For full-screen images on small screens */
+
+@media screen and (max-width: 359px) {
+    .home__img,
+    .share__img,
+    .send__img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 576px) {
+    .home__container,
+    .share__container,
+    .send__container {
+        grid-template-columns: repeat(2, 1fr);
+        align-items: center;
+    }
+    .home__container {
+        padding: 5rem 0 0;
+    }
+    .home__img {
+        order: 1;
+    }
+    .section-title-center,
+    .share__data,
+    .send__description {
+        text-align: initial;
+    }
+    .home__img,
+    .share__img,
+    .send__img {
+        width: 100%;
+    }
+    .share__img {
+        order: -1;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        margin: 0;
+    }
+    .section {
+        padding-top: 7rem;
+    }
+    .nav {
+        height: calc(var(--header-height) + 1.5rem);
+    }
+    .nav__list {
+        display: flex;
+        align-items: center;
+    }
+    .nav__item {
+        margin-left: var(--mb-5);
+        margin-bottom: 0;
+    }
+    .nav__toggle {
+        display: none;
+    }
+    .change-theme {
+        position: initial;
+        margin-left: var(--mb-4);
+    }
+    .home__container {
+        padding: 7rem 2rem 0;
+    }
+    .share__container {
+        padding: 0 2rem;
+    }
+    .accessory__container {
+        grid-template-columns: repeat(3, 224px);
+        justify-content: center;
+    }
+    .accessory__content {
+        padding: 0.5rem 1.5rem 1.5rem;
+    }
+    .accessory__img {
+        width: 120px;
+        margin-bottom: var(--mb-1);
+    }
+    .accessory__title,
+    .accessory__category {
+        text-align: initial;
+    }
+    .accessory__button {
+        padding: 0.75rem;
+    }
+    .send {
+        background: none;
+    }
+    .send__container {
+        background-color: var(--first-color-send);
+        padding: 2rem;
+        border-radius: 1.5rem;
+    }
+}
+
+@media screen and (min-width: 968px) {
+    .bd-container {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .home__img,
+    .share__img,
+    .send__img {
+        width: 469px;
+    }
+    .home__container,
+    .share__container,
+    .send__container {
+        column-gap: 5rem;
+    }
+    .accessory__container {
+        grid-template-columns: repeat(5, 224px);
+        // justify-content: space-between;
+    }
+}
+
+#title {
+    width: 100%;
+    position: absolute;
+    padding: 0px;
+    margin: 0px auto;
+    text-align: center;
+    font-size: 27px;
+    color: rgba(255, 255, 255, 1);
+    font-family: "Open Sans", sans-serif;
+    z-index: 9999;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), -1px 0px 2px rgba(255, 255, 255, 0);
+}
+
+@media screen and (max-width: 968px) {
+    .carousel-inner {
+        margin-top: 83px;
+    }
+}
+
+.social a {
+    padding: 20px;
+    color: #7b7c7c;
+    font-size: 1.1rem;
+}
+
+/*Start Of Contact Us Form*/
+
+.contact-container {
+    position: relative;
+    // margin: 400px 0 0 0;
+    margin: 400px 0 675px 0;
+}
+
+#contact {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+}
+
+.social {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.1);
+}
+
+.social a:hover {
+    color: #000000;
+    transition: all ease 0.3s;
+}
+
+.contact-box {
+    background-color: var(--first-color-send);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 30px;
+    box-shadow: 2px 0px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 1.5rem;
+}
+
+.c-heading h1 {
+    font-family: Roboto;
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: lighter;
+    margin: 0px;
+    padding: 0px;
+}
+
+.c-heading p {
+    font-family: Roboto;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: lighter;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+
+.c-inputs {
+    margin: 15px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.c-inputs input {
+    width: 250px;
+    height: 45px;
+    /*  background-color: transparent; */
+    border: none;
+    border-bottom: 1px solid rgba(251, 251, 251, 0.1);
+    outline: none;
+    margin: 10px 0px;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #564c4c;
+    display: flex;
+}
+
+.c-inputs textarea {
+    width: 250px !important;
+    height: 200px !important;
+    outline: none;
+    /* background-color: transparent; */
+    border: 1px solid rgba(82, 82, 82, 1);
+    color: #564c4c;
+    padding: 10px;
+    font-size: 1.2rem;
+    box-sizing: border-box;
+}
+
+.c-inputs button {
+    width: 200px;
+    height: 40px;
+    background-color: #ffffff;
+    border: none;
+    outline: none;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+}
+
+.c-inputs input:focus {
+    border-bottom: 1px solid rgba(252, 252, 252, 1);
+    transition: all ease 0.5s;
+}
+
+.c-inputs button:active {
+    transform: scale(1.02);
+}
+
+.map {
+    filter: grayscale(0.2);
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid #ffffff;
+}
+
+@media (max-width: 1100px) {
+    .map {
+        display: none;
+    }
+}
+
+@media (max-width: 1450px) {
+    .container-slideshow {
+        height: 90vh;
+        margin-top: 100px;
+    }
+}
+
+@media (max-width: 1350px) {
+    .container-slideshow {
+        height: 80vh;
+        margin-top: 100px;
+    }
+}
+
+@media (max-width: 1240px) {
+    .container-slideshow {
+        height: 70vh;
+        margin-top: 100px;
+    }
+
+    .accessory__container {
+        grid-template-columns: repeat(3, 224px);
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .container-slideshow {
+        height: 60vh;
+        margin-top: 100px;
+    }
+}
+
+@media screen and (max-width: 968px) {
+    .container-slideshow {
+        height: 55vh;
+        margin-top: 100px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    // 768
+    .container-slideshow {
+        height: 50vh;
+        margin-top: 100px;
+    }
+}
+
+@media (max-width: 700px) {
+    .container-slideshow {
+        height: 45vh;
+        margin-top: 100px;
+    }
+
+    .accessory__container {
+        grid-template-columns: repeat(2, 224px);
+    }
+}
+
+@media (max-width: 600px) {
+    .container-slideshow {
+        height: 38vh;
+        margin-top: 100px;
+    }
+}
+
+@media (max-width: 450px) {
+    .social {
+        display: none;
+    }
+    .contact-box {
+        width: 100%;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+    #contact {
+        position: static;
+        transform: translate(0, 0);
+        width: 100%;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+    .c-heading h1 {
+        font-size: 2.2rem;
+        text-align: center;
+    }
+    .contact-container {
+        position: relative;
+        margin: 40px 0 0 0;
+    }
+    .container-slideshow {
+        height: 33vh;
+        margin-top: 100px;
+    }
+    .accessory__container {
+        grid-template-columns: repeat(2, 190px);
+    }
+}
+
+/*End Of Contact Us Form*/
